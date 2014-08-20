@@ -1,4 +1,5 @@
 .bundle
 .tmp
+.sass-cache
 node_modules
 

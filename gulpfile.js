@@ -79,7 +79,10 @@ gulp.task('styles', ['styles:compass'], function() {
 
 // Compile Sass with Compass
 gulp.task('styles:compass', function() {
-  return gulp.src('app/styles/*.scss')
+  return gulp.src([
+      'app/styles/*.scss',
+      '!app/styles/_*.scss',
+    ])
     .pipe($.compass({
       bundle_exec: true,
       sass: 'app/styles',
@@ -89,7 +92,6 @@ gulp.task('styles:compass', function() {
       comments: true,
       require: ['bootstrap-sass'],
     }))
-    .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe($.size({title: 'styles'}));
 });
