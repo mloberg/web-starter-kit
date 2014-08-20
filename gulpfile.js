@@ -166,5 +166,5 @@ gulp.task('serve:dist', ['default'], function() {
 
 // Build site to dist
 gulp.task('default', ['clean'], function(cb) {
-  runSequence('styles', ['scripts', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence(['styles', 'scripts'], ['html', 'images', 'fonts', 'copy'], cb);
 });
