@@ -1,0 +1,13 @@
+{
+  "name": "web-starter-kit",
+  "private": true,
+  "dependencies": {
+    "modernizr": "~2.8.3",
+    "jquery": "~2.1.1"
+  },
+  "overrides": {
+    "modernizr": {
+      "main": "./modernizr.js"
+    }
+  }
+}

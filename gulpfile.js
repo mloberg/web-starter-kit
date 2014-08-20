@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var vendor = require('bower-files')();
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
@@ -20,10 +21,16 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 // Compile CoffeeScript
-gulp.task('scripts', ['lint'], function() {
+gulp.task('scripts', ['lint', 'scripts:vendor'], function() {
   return gulp.src('app/scripts/**/*.coffee')
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe($.size({title: 'scripts'}));
+});
+
+gulp.task('scripts:vendor', function() {
+  return gulp.src(vendor.js || '')
+    .pipe(gulp.dest('.tmp/scripts/vendor'))
+    .pipe($.size({title: 'scripts:vendor'}));
 });
 
 // Lint CoffeeScript and JavaScript
@@ -69,7 +76,7 @@ gulp.task('fonts', function() {
 });
 
 // Prefix stylesheets
-gulp.task('styles', ['styles:compass'], function() {
+gulp.task('styles', ['styles:compass', 'styles:vendor'], function() {
   return gulp.src('app/styles/**/*.css')
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
@@ -94,6 +101,12 @@ gulp.task('styles:compass', function() {
     }))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe($.size({title: 'styles'}));
+});
+
+gulp.task('styles:vendor', function() {
+  return gulp.src(vendor.css || '')
+    .pipe(gulp.dest('.tmp/styles/vendor'))
+    .pipe($.size({title: 'styles:vendor'}));
 });
 
 // Scan HTML for assets & optimize them
@@ -126,7 +139,7 @@ gulp.task('html', function() {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Serve files and watch for changes and reload
-gulp.task('serve', ['styles'], function() {
+gulp.task('serve', ['styles', 'scripts'], function() {
   browserSync({
     notify: false,
     server: {

@@ -15,5 +15,6 @@ Starting point for developing a new site.
 * Clone/download repo
 * `bundle install`
 * `npm install`
+* `bower install`
 * Hack in *app/*
 * `gulp server` for live reloading HTTP server
