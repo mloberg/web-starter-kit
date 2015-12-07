@@ -10,11 +10,11 @@ Starting point for developing a new site.
 * Built in HTTP server with live reloading
 * Minify and concatenate Images, JavaScript, CSS, and HTML
 
-## Quickstart
+## Quick Start
 
 * Clone/download repo
 * `bundle install`
 * `npm install`
 * `bower install`
 * Hack in *app/*
-* `gulp server` for live reloading HTTP server
+* `gulp serve` for live reloading HTTP server

@@ -2,8 +2,8 @@
   "name": "web-starter-kit",
   "private": true,
   "dependencies": {
-    "modernizr": "~2.8.3",
-    "jquery": "~2.1.1"
+    "modernizr": "~3.2.0",
+    "jquery": "~2.1.4"
   },
   "overrides": {
     "modernizr": {
