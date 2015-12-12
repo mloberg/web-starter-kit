@@ -22,11 +22,14 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 // Build scripts
-gulp.task('scripts', ['scripts:lint', 'scripts:vendor', 'scripts:coffee'], function() {
+gulp.task('scripts', ['scripts:coffee', 'scripts:vendor'], function() {
   return gulp.src([
     '.tmp/scripts/**/*.js',
     'app/scripts/**/*.js'
   ])
+  .pipe($.if('app/scripts/**/*.js', $.jshint()))
+  .pipe($.if('app/scripts/**/*.js', $.jshint.reporter('jshint-stylish')))
+  .pipe($.if('app/scripts/**/*.js', $.if(!browserSync.active, $.jshint.reporter('fail'))))
   .pipe($.modernizr())
   .pipe(gulp.dest('.tmp/scripts/vendor'));
 });
@@ -34,6 +37,7 @@ gulp.task('scripts', ['scripts:lint', 'scripts:vendor', 'scripts:coffee'], funct
 // Compile CoffeeScript
 gulp.task('scripts:coffee', function() {
   return gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffee())
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe($.size({title: 'scripts:coffee'}));
 });
@@ -43,18 +47,6 @@ gulp.task('scripts:vendor', function() {
   return gulp.src(vendor.ext('js').files)
     .pipe(gulp.dest('.tmp/scripts/vendor'))
     .pipe($.size({title: 'scripts:vendor'}));
-});
-
-// Lint CoffeeScript and JavaScript
-gulp.task('scripts:lint', function() {
-  return gulp.src([
-    'app/scripts/**/*.{coffee,js}',
-    '!app/scripts/vendor/**/*.js',
-  ])
-  .pipe($.if('*.coffee', $.coffee()))
-  .pipe($.if('*.js', $.jshint()))
-  .pipe($.if('*.js', $.jshint.reporter('jshint-stylish')))
-  .pipe($.if('*.js', $.if(!browserSync.active, $.jshint.reporter('fail'))));
 });
 
 // Optimize images
