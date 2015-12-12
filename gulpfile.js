@@ -122,14 +122,13 @@ gulp.task('html', function() {
     .pipe($.useref({searchPath: '{.tmp,app}'}))
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Remove Any Unused CSS
-    // Make sure you include all html files with unique styles
     .pipe($.if('*.css', $.uncss({
       html: [
-        'app/index.html',
+        'app/**/*.html',
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: [
-        /.browsehappy/,
+        /.browserupgrade/,
       ]
     })))
     .pipe($.if('*.css', $.csso()))
