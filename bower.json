@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "jquery": "~2.1.4",
-    "bootstrap-sass": "~3.3.6"
+    "bootstrap-sass": "~3.3.6",
+    "font-awesome": "fontawesome#~4.5.0"
   },
   "overrides": {
     "bootstrap-sass": {
@@ -15,6 +16,16 @@
         "assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
         "assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
         "assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "scss/font-awesome.scss",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
       ]
     }
   }
