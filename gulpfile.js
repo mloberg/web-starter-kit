@@ -28,7 +28,7 @@ gulp.task('scripts', ['lint', 'scripts:vendor'], function() {
 });
 
 gulp.task('scripts:vendor', function() {
-  return gulp.src(vendor.js || '')
+  return gulp.src(vendor.ext('js').files)
     .pipe(gulp.dest('.tmp/scripts/vendor'))
     .pipe($.size({title: 'scripts:vendor'}));
 });
@@ -104,17 +104,15 @@ gulp.task('styles:compass', function() {
 });
 
 gulp.task('styles:vendor', function() {
-  return gulp.src(vendor.css || '')
+  return gulp.src(vendor.ext('css').files)
     .pipe(gulp.dest('.tmp/styles/vendor'))
     .pipe($.size({title: 'styles:vendor'}));
 });
 
 // Scan HTML for assets & optimize them
 gulp.task('html', function() {
-  var assets = $.useref.assets({searchPath: '{.tmp,app}'});
-
   return gulp.src('app/**/*.html')
-    .pipe(assets)
+    .pipe($.useref({searchPath: '{.tmp,app}'}))
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Remove Any Unused CSS
     // Make sure you include all html files with unique styles
@@ -128,8 +126,6 @@ gulp.task('html', function() {
       ]
     })))
     .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
     .pipe($.if('*.html', $.minifyHtml()))
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
