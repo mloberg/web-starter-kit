@@ -1,16 +1,14 @@
 'use strict';
 
+var path = require('path');
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var __ = require('underscore');
 var vendor = require('bower-files')();
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
-
-var SASS_INCLUDE_PATHS = [
-  'bower_components/bootstrap-sass/assets/stylesheets'
-];
 
 var AUTOPREFIXER_BROWSERS = [
   "Android 2.3",
@@ -105,7 +103,7 @@ gulp.task('styles:sass', function() {
       '!app/styles/_*.scss',
     ])
     .pipe($.sass({
-      includePaths: SASS_INCLUDE_PATHS
+      includePaths: __.uniq(vendor.ext('scss').files.map(path.dirname))
     }))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe($.size({title: 'styles'}));
