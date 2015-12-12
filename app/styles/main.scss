@@ -1,7 +1,29 @@
 @import "bootstrap-variables";
 @import "bootstrap";
 
-.browsehappy {
+// Remove text-shadow in selection highlight:
+// https://twitter.com/miketaylr/status/12228805301
+//
+// These selection rule sets have to be separate.
+// Customize the background color to match your design.
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+// Allow only vertical resizing of textareas.
+textarea {
+  resize: vertical;
+}
+
+// Prompt users to upgrade their browser
+.browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;

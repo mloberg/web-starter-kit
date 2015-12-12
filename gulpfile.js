@@ -9,7 +9,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 var SASS_INCLUDE_PATHS = [
-  './bower_components/bootstrap-sass/assets/stylesheets'
+  'bower_components/bootstrap-sass/assets/stylesheets'
 ];
 
 var AUTOPREFIXER_BROWSERS = [
@@ -23,13 +23,24 @@ var AUTOPREFIXER_BROWSERS = [
   "Safari >= 6"
 ];
 
-// Compile CoffeeScript
-gulp.task('scripts', ['lint', 'scripts:vendor'], function() {
-  return gulp.src('app/scripts/**/*.coffee')
-    .pipe(gulp.dest('.tmp/scripts'))
-    .pipe($.size({title: 'scripts'}));
+// Build scripts
+gulp.task('scripts', ['scripts:lint', 'scripts:vendor', 'scripts:coffee'], function() {
+  return gulp.src([
+    '.tmp/scripts/**/*.js',
+    'app/scripts/**/*.js'
+  ])
+  .pipe($.modernizr())
+  .pipe(gulp.dest('.tmp/scripts/vendor'));
 });
 
+// Compile CoffeeScript
+gulp.task('scripts:coffee', function() {
+  return gulp.src('app/scripts/**/*.coffee')
+    .pipe(gulp.dest('.tmp/scripts'))
+    .pipe($.size({title: 'scripts:coffee'}));
+});
+
+// Install JavaScript files from Bower
 gulp.task('scripts:vendor', function() {
   return gulp.src(vendor.ext('js').files)
     .pipe(gulp.dest('.tmp/scripts/vendor'))
@@ -37,7 +48,7 @@ gulp.task('scripts:vendor', function() {
 });
 
 // Lint CoffeeScript and JavaScript
-gulp.task('lint', function() {
+gulp.task('scripts:lint', function() {
   return gulp.src([
     'app/scripts/**/*.{coffee,js}',
     '!app/scripts/vendor/**/*.js',
@@ -100,6 +111,7 @@ gulp.task('styles:sass', function() {
     .pipe($.size({title: 'styles'}));
 });
 
+// Install stylesheets from Bower
 gulp.task('styles:vendor', function() {
   return gulp.src(vendor.ext('css').files)
     .pipe(gulp.dest('.tmp/styles/vendor'))
