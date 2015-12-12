@@ -8,16 +8,19 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
+var SASS_INCLUDE_PATHS = [
+  './bower_components/bootstrap-sass/assets/stylesheets'
+];
+
 var AUTOPREFIXER_BROWSERS = [
-  'ie >= 10',
-  'ie_mob >= 10',
-  'ff >= 30',
-  'chrome >= 34',
-  'safari >= 7',
-  'opera >= 23',
-  'ios >= 7',
-  'android >= 4.4',
-  'bb >= 10',
+  "Android 2.3",
+  "Android >= 4",
+  "Chrome >= 20",
+  "Firefox >= 24",
+  "Explorer >= 8",
+  "iOS >= 6",
+  "Opera >= 12",
+  "Safari >= 6"
 ];
 
 // Compile CoffeeScript
@@ -76,7 +79,7 @@ gulp.task('fonts', function() {
 });
 
 // Prefix stylesheets
-gulp.task('styles', ['styles:compass', 'styles:vendor'], function() {
+gulp.task('styles', ['styles:sass', 'styles:vendor'], function() {
   return gulp.src('app/styles/**/*.css')
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
@@ -84,20 +87,14 @@ gulp.task('styles', ['styles:compass', 'styles:vendor'], function() {
     .pipe($.size({title: 'styles'}));
 });
 
-// Compile Sass with Compass
-gulp.task('styles:compass', function() {
+// Compile Sass
+gulp.task('styles:sass', function() {
   return gulp.src([
       'app/styles/*.scss',
       '!app/styles/_*.scss',
     ])
-    .pipe($.compass({
-      bundle_exec: true,
-      sass: 'app/styles',
-      css: '.tmp/styles',
-      images: 'app/images',
-      font: 'app/fonts',
-      comments: true,
-      require: ['bootstrap-sass'],
+    .pipe($.sass({
+      includePaths: SASS_INCLUDE_PATHS
     }))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe($.size({title: 'styles'}));
