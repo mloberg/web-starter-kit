@@ -73,10 +73,15 @@ gulp.task('copy', function() {
 });
 
 // Copy fonts to dist
-gulp.task('fonts', function() {
-  return gulp.src(['app/fonts/**'])
+gulp.task('fonts', ['fonts:vendor'], function() {
+  return gulp.src(['app/fonts/**', '.tmp/fonts/**'])
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size({title: 'fonts'}));
+});
+
+gulp.task('fonts:vendor', function() {
+  return gulp.src(vendor.ext(['eot', 'woff', 'woff2', 'ttf', 'svg']).files)
+    .pipe(gulp.dest('.tmp/fonts'));
 });
 
 // Prefix stylesheets
@@ -98,7 +103,7 @@ gulp.task('styles:sass', function() {
       includePaths: __.uniq(vendor.ext('scss').files.map(path.dirname))
     }))
     .pipe(gulp.dest('.tmp/styles'))
-    .pipe($.size({title: 'styles'}));
+    .pipe($.size({title: 'styles:sass'}));
 });
 
 // Install stylesheets from Bower
@@ -133,7 +138,7 @@ gulp.task('html', function() {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Serve files and watch for changes and reload
-gulp.task('serve', ['styles', 'scripts'], function() {
+gulp.task('serve', ['styles', 'scripts', 'fonts:vendor'], function() {
   browserSync({
     notify: false,
     server: {
