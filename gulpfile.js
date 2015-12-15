@@ -24,19 +24,21 @@ var AUTOPREFIXER_BROWSERS = [
 // Build scripts
 gulp.task('scripts', ['scripts:coffee', 'scripts:vendor'], function() {
   return gulp.src([
-    '.tmp/scripts/**/*.js',
-    'app/scripts/**/*.js'
-  ])
-  .pipe($.if('app/scripts/**/*.js', $.jshint()))
-  .pipe($.if('app/scripts/**/*.js', $.jshint.reporter('jshint-stylish')))
-  .pipe($.if('app/scripts/**/*.js', $.if(!browserSync.active, $.jshint.reporter('fail'))))
-  .pipe($.modernizr())
-  .pipe(gulp.dest('.tmp/scripts/vendor'));
+      '.tmp/scripts/**/*.js',
+      'app/scripts/**/*.js'
+    ])
+    .pipe($.if('app/scripts/**/*.js', $.jshint()))
+    .pipe($.if('app/scripts/**/*.js', $.jshint.reporter('jshint-stylish')))
+    .pipe($.if('app/scripts/**/*.js', $.if(!browserSync.active, $.jshint.reporter('fail'))))
+    .pipe($.modernizr())
+    .pipe(gulp.dest('.tmp/scripts/vendor'));
 });
 
 // Compile CoffeeScript
 gulp.task('scripts:coffee', function() {
   return gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffeelint())
+    .pipe($.coffeelint.reporter())
     .pipe($.coffee())
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe($.size({title: 'scripts:coffee'}));
@@ -63,12 +65,13 @@ gulp.task('images', function() {
 // Copy files at root level to dist
 gulp.task('copy', function() {
   return gulp.src([
-    'app/*',
-    '!app/*.html',
-    'node_modules/apache-server-configs/dist/.htaccess'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist'))
+      'app/*',
+      '!app/*.html',
+      'node_modules/apache-server-configs/dist/.htaccess'
+    ], {
+      dot: true
+    })
+    .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'copy'}));
 });
 
