@@ -132,6 +132,8 @@ gulp.task('html', function() {
       ]
     })))
     .pipe($.if('*.css', $.csso()))
+    .pipe($.if('*.html', $.htmlhint()))
+    .pipe($.if('*.html', $.htmlhint.reporter()))
     .pipe($.if('*.html', $.minifyHtml()))
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));

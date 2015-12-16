@@ -6,7 +6,7 @@ Starting point for developing a new site.
 
 * [Sass](http://sass-lang.com/) support
 * [CoffeeScript](http://coffeescript.org/) support
-* JavaScript and CoffeeScript linting
+* HTML, JavaScript, and CoffeeScript linting
 * Built in HTTP server with live reloading
 * Minify and concatenate Images, JavaScript, CSS, and HTML
 
