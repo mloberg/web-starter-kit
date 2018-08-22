@@ -2,6 +2,8 @@
 
 Starting point for developing a new site.
 
+**Deprecated**: Look at Google's WSK if you need something like this. https://github.com/google/web-starter-kit
+
 ## Features
 
 * [Sass](http://sass-lang.com/) support
